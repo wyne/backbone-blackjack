@@ -43,6 +43,7 @@ define([
             var val = _.reduce(this.get('hand').models, function(value, card) {
                 return value + card.get('rank').get('value');
             }, 0);
+            console.log(val);
             return val;
         },
 
