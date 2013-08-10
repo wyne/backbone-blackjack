@@ -10,7 +10,7 @@ define([
             this.model.on('all', this.render, this);
             this.model.get('hand').on('all', this.render, this);
 
-            this.template = _.template( PlayerTemplate );
+            this.template = _.template(PlayerTemplate);
             this.render();
         },
 
@@ -19,10 +19,12 @@ define([
                 handValue: this.model.getHandValue()
             });
 
-            this.$el.html( this.template( model ) );
+            this.$el.html(this.template(model));
 
             this.model.get('hand').each(function(card) {
-                this.$el.append( new CardView({ model: card }).el );
+                this.$el.append(new CardView({
+                    model: card
+                }).el);
             }, this);
 
             return this;

@@ -2,7 +2,7 @@ define([
     'backbone'
 ], function(Backbone) {
 
-	var Game = {};
+    var Game = {};
 
-	return Game;
+    return Game;
 });

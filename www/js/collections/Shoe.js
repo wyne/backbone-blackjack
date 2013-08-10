@@ -20,7 +20,7 @@ define([
                 var deck = new Deck();
 
                 // Shuffle deck and add to the shoe
-                _.each( _.shuffle(deck.models), function(card) {
+                _.each(_.shuffle(deck.models), function(card) {
                     this.push(card);
                 }, this);
             }, this);

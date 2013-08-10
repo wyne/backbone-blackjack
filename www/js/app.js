@@ -40,9 +40,11 @@ require([
 
     justin.drawCard();
 
-    var justinView = new PlayerView({ model: justin });
+    var justinView = new PlayerView({
+        model: justin
+    });
 
     var view = new GameView();
 
-    $('body').append( justinView.$el );
+    $('body').append(justinView.$el);
 });

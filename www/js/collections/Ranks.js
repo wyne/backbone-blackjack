@@ -5,7 +5,7 @@ define([
 
     var Ranks = Backbone.Collection.extend({
         model: Rank
-    },{
+    }, {
         allRanks: [
             new Rank({ name:'Ace',      value: [1,11] }),
             new Rank({ name:'Two',      value: 2 }),

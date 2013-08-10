@@ -2,7 +2,7 @@ define([
     'backbone'
 ], function(Backbone) {
 
-	var Suit = Backbone.Model.extend();
+    var Suit = Backbone.Model.extend();
 
-	return Suit;
+    return Suit;
 });
