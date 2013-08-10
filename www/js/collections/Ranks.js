@@ -7,7 +7,7 @@ define([
         model: Rank
     }, {
         allRanks: [
-            new Rank({ name:'Ace',      value: [1,11] }),
+            new Rank({ name:'Ace',      value: 1 }),
             new Rank({ name:'Two',      value: 2 }),
             new Rank({ name:'Three',    value: 3 }),
             new Rank({ name:'Four',     value: 4 }),

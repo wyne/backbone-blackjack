@@ -11,10 +11,11 @@ define([
         },
 
         initialize: function(options) {
-            // TODO require a shoe
-            this.shoe = options.shoe;
+            if (_.isUndefined(options.shoe)){
+                throw "Each player must have a dealer's shoe to draw cards from!";
+            }
 
-            console.log('New player! Name: ' + options.name);
+            this.shoe = options.shoe;
         },
 
         drawCard: function() {
@@ -31,20 +32,37 @@ define([
             return this;
         },
 
-        hit: function() {
-            return this;
-        },
-
         stay: function() {
             return this;
         },
 
         getHandValue: function() {
-            var val = _.reduce(this.get('hand').models, function(value, card) {
-                return value + card.get('rank').get('value');
+            var hand = this.get('hand').models,
+                type = 'Hard',
+                val = 0,
+                aceCount = 0;
+
+            // Iterate through all cards and sum their values
+            value = _.reduce(hand, function(value, card) {
+                var cardValue = card.get('rank').get('value');
+                return value + cardValue;
             }, 0);
-            console.log(val);
-            return val;
+
+            // Count aces to accommodate for Soft Hands
+            aceCount = _.filter(hand, function(card) {
+                return card.get('rank').get('value') === 1;
+            }).length;
+
+            // If Soft Hand
+            if (aceCount > 0 && value < 12){
+                value += 10;
+                type = 'Soft';
+            }
+
+            return {
+                'type': type,
+                'value': value
+            };
         },
 
         placeBet: function() {

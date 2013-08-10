@@ -14,6 +14,16 @@ define([
             this.render();
         },
 
+        events: {
+            "click .hit": "hit"
+        },
+
+        hit: function(e) {
+            e.preventDefault();
+
+            this.model.drawCard();
+        },
+
         render: function() {
             var model = _.extend(this.model.toJSON(), {
                 handValue: this.model.getHandValue()

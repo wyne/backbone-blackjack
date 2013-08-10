@@ -1,5 +1,5 @@
 requirejs.config({
-    baseUrl: "/js/", // Default from data-main path in index.html
+    baseUrl: '/js/', // Default from data-main path in index.html
     paths: {
         jquery: 'libs/jquery-1.9.1.min',
         underscore: 'libs/underscore-1.4.4-min',
@@ -18,33 +18,21 @@ requirejs.config({
 });
 
 require([
-    "models/Rank",
-    "models/Suit",
-    "collections/Ranks",
-    "collections/Suits",
-    "collections/Shoe",
-    "models/Player",
-    "views/PlayerView",
-    "views/GameView"
-], function(Rank, Suit, Ranks, Suits, Shoe, Player, PlayerView, GameView) {
+    'models/Rank',
+    'models/Suit',
+    'collections/Ranks',
+    'collections/Suits',
+    'collections/Shoe',
+    'models/Player',
+    'views/PlayerView',
+    'views/GameView',
+    'models/Game'
+], function(Rank, Suit, Ranks, Suits, Shoe, Player, PlayerView, GameView, Game) {
 
-    shoe = new Shoe(null, {
-        decks: 8
-    });
+    var game = new Game();
 
-    justin = new Player({
-        name: 'Justin',
-        shoe: shoe
-    });
+    game.addPlayer('Justin');
 
+    var view = new GameView({ model: game });
 
-    justin.drawCard();
-
-    var justinView = new PlayerView({
-        model: justin
-    });
-
-    var view = new GameView();
-
-    $('body').append(justinView.$el);
 });
