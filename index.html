@@ -1,0 +1,101 @@
+<html>
+<head>
+    <title>BlackJack</title>
+    <script src='http://code.jquery.com/jquery-1.9.1.min.js'></script>
+    <script src='http://static.stackmob.com/js/json2-min.js'></script>
+    <script src='http://static.stackmob.com/js/underscore-1.4.4-min.js'></script>
+    <script src='http://static.stackmob.com/js/backbone-1.0.0-min.js'></script>
+
+    <script>
+    //<![CDATA[
+
+    // (function($){
+
+        var Card = Backbone.Model.extend({
+            defaults: {
+                suit: '',
+                rank: ''
+            }
+        });
+
+        var suits = new Array('D', 'C', 'H', 'S');
+        var ranks = new Array('A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K');
+
+        var Deck = Backbone.Collection.extend({
+            model: Card,
+
+            initialize: function() {
+                // Create a new deck with 52 cards
+                _.each(suits, function(suit) {
+                    _.each(ranks, function(rank) {
+                        this.push(new Card({
+                            suit: suit,
+                            rank: rank
+                        }));
+                    }, this);
+                }, this);
+            }
+        });
+
+        var Shoe = Backbone.Collection.extend({
+            model: Card,
+
+            initialize: function(models, options) {
+                // Default options
+                options = _.extend({
+                    decks: 8
+                }, options);
+
+                // Add a deck
+                _.times(options.decks, function() {
+
+                    // Create a deck
+                    var deck = new Deck();
+
+                    // Shuffle deck and add to the shoe
+                    _.each( _.shuffle(deck.models), function(card) {
+                        this.push(card);
+                    }, this);
+                }, this);
+            }
+
+        });
+
+        // Define the Home View
+        var HomeView = Backbone.View.extend({
+
+            el: 'body',
+
+            initialize: function() {
+                this.render();
+            },
+
+            render: function() {
+                this.$el.empty();
+                this.$el.append('<h1>BlackJack</h1>');
+
+                // wineView = new WineView({ model: wine1 });
+                // this.$el.append( wineView.render().el );
+
+                return this;
+            }
+        });
+
+        $(document).ready(function() {
+
+            shoe = new Shoe(null, {
+                decks: 8
+            });
+
+            var view = new HomeView();
+        });
+
+    // }(jQuery));
+
+    //]]>
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
