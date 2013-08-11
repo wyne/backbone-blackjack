@@ -6,16 +6,29 @@ define([
     var Player = Backbone.Model.extend({
         defaults: {
             name: 'Anonymous',
-            cash: 500
+            cash: 500,
+            maxAllowedBet: 100,
+            bet: 10
         },
 
         initialize: function(options) {
+            this.on('invalid', function(model, error) {
+                console.log('INVALID');
+            });
+
             if (_.isUndefined(options.shoe)){
-                throw "Each player must have a dealer's shoe to draw cards from!";
+                throw 'Each player must link to a dealer\'s shoe to draw cards!';
             }
 
             this.set('hand', new Hand());
             this.set('shoe', options.shoe);
+        },
+
+        validate: function(attrs, options) {
+            if (attrs.bet > this.get('maxAllowedBet')){
+                return 'Bet must not exceed ' + this.maxAllowedBet
+            }
+
         },
 
         drawCard: function() {
@@ -31,7 +44,27 @@ define([
             return this;
         },
 
-        stay: function() {
+        hit: function() {
+            this.drawCard();
+        },
+
+        stand: function() {
+            this.trigger('endTurn');
+            return this;
+        },
+
+        bet: function(amount) {
+            this.set({
+                'bet': amount
+            }, {
+                'validate': true
+            });
+
+            if (this.isValid()){
+                console.log('trigger');
+                this.trigger('betSubmitted');
+            }
+
             return this;
         },
 
@@ -62,10 +95,6 @@ define([
                 'type': type,
                 'value': value
             };
-        },
-
-        placeBet: function() {
-            return this;
         }
     });
 

@@ -15,6 +15,32 @@ define([
             this.render();
         },
 
+        events: {
+            "click #new-game" : "newGame"
+        },
+
+        deal: function(e) {
+            e.preventDefault();
+            if (this.$('#deal').attr('disabled') !== true){
+                this.model.deal();
+                this.$('#deal').attr('disabled', true);
+            }
+            
+        },
+
+        newGame: function() {
+            this.model.newGame();
+            this.startBettingRound();
+        },
+
+        startBettingRound: function() {
+            this.model.startBettingRound();
+        },
+
+        startPlayingRound: function() {
+            this.model.startPlayingRound();
+        },
+
         render: function() {
             this.$el.empty();
             this.$el.html( this.template() );

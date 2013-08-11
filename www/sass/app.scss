@@ -1,0 +1,20 @@
+
+.hand {
+    height: 250px;
+}
+.card {
+    width: 100px;
+    height: 200px;
+    border: 1px solid black;
+    border-radius: 5px;
+    float: left;
+    margin: 10px;
+    padding: 10px;
+    &.face-down {
+        background-color: gray;
+
+        .face {
+            display: none;
+        }
+    }
+}

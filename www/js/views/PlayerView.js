@@ -15,13 +15,27 @@ define([
         },
 
         events: {
-            "click .hit": "hit"
+            'click .hit': 'hit',
+            'click .bet': 'bet',
+            'click .stand': 'stand'
+        },
+
+        bet: function(e) {
+            e.preventDefault();
+
+            this.model.bet(this.$el.find('.betAmount').val());
         },
 
         hit: function(e) {
             e.preventDefault();
 
             this.model.drawCard();
+        },
+
+        stand: function(e) {
+            e.preventDefault();
+
+            this.model.stand();
         },
 
         render: function() {

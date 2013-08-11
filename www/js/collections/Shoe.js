@@ -13,8 +13,17 @@ define([
                 decks: 8
             }, options);
 
+            this.decks = options.decks;
+
+            this.restart();
+        },
+
+        restart: function() {
+            // Clear the decks
+            this.reset();
+
             // Add a deck
-            _.times(options.decks, function() {
+            _.times(this.decks, function() {
 
                 // Create a deck
                 var deck = new Deck();

@@ -15,16 +15,20 @@ define([
         },
 
         render: function() {
+            this.$el.empty();
+
             var model = _.extend(this.model.toJSON(), {
                 handValue: this.model.getHandValue()
             });
 
-            console.log('dealer render');
             this.$el.html(this.template(model));
 
-            this.model.get('hand').each(function(card) {
+            this.model.get('hand').each(function(card, i) {
+                var visible = (i==1) ? false : true;
+
                 this.$el.find('.hand').append(new CardView({
-                    model: card
+                    model: card,
+                    visible: visible
                 }).el);
             }, this);
 
