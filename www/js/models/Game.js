@@ -14,7 +14,7 @@ define([
         addPlayer: function(name) {
             var player = new Player({
                 name: name,
-                shoe: this.shoe
+                shoe: this.get('shoe')
             });
 
             this.players.push(player);
@@ -29,15 +29,19 @@ define([
         },
 
         initialize: function() {
-            var _this = this;
+            // Initialize dealer shoe
+            this.set('shoe', new Shoe(null, {
+                decks: this.get('decks')
+            }));
+
+            // Initialize dealer
+            this.dealer = new Player({
+                name: 'Dealer',
+                shoe: this.get('shoe')
+            });
 
             // Initialize players
             this.players = new Players();
-
-            // Initialize dealer shoe
-            this.shoe = new Shoe(null, {
-                decks: this.get('decks')
-            });
         },
 
         endTurn: function() {

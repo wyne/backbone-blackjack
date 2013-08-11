@@ -1,17 +1,22 @@
 <form action="">
     <fieldset>
-        <legend><%= name %></legend>
-        <strong>Cash:</strong> <%= cash %>
+        <div class="row-fluid">
+            <legend><%= name %></legend>
+            <strong>Cash:</strong> <%= cash %>
+        </div>
+        <div class="row-fluid">
+            Betting Box:
+            <input type="text" value="10" class="input-small" />
+            <a href="#" class="btn bet">Bet</a>
+        </div>
+        <div class="row-fluid">
+            <a href="#" class="btn hit">Hit</a>
+            <a href="#" class="btn stand">Stand</a>
+        </div>
         
-        Betting Box:
-        <input type="text" value="10" class="input-small" />
-        
-        <a href="#" class="bet">Bet</a>
-        
-        <a href="#" class="hit">Hit</a>
-        <a href="#" class="stand">Stand</a>
-        
-        <div class="hand"></div>
-        <strong>Hand Value:</strong> <%= handValue.type %> <%= handValue.value %>
+        <div class="row-fluid">
+            <strong>Hand Value:</strong> <%= handValue.type %> <%= handValue.value %>
+            <div class="hand"></div>
+        </div>
     </fieldset>
 </form>

@@ -2,8 +2,9 @@ define([
     'backbone',
     'models/Card',
     'text!templates/Game.html',
-    'views/PlayerView'
-], function(Backbone, Card, GameTemplate, PlayerView) {
+    'views/PlayerView',
+    'views/DealerView'
+], function(Backbone, Card, GameTemplate, PlayerView, DealerView) {
 
     var GameView = Backbone.View.extend({
 
@@ -18,6 +19,10 @@ define([
             this.$el.empty();
             this.$el.html( this.template() );
 
+            // Append dealer view
+            this.$('.dealer').append( new DealerView({ model: this.model.dealer }).$el );
+            
+            // Append player views
             this.model.players.each(function(player) {
                 var playerView = new PlayerView({
                     model: player

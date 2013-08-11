@@ -1,27 +1,17 @@
 define([
     'backbone',
-    'text!templates/Player.html',
+    'text!templates/Dealer.html',
     'views/CardView'
-], function(Backbone, PlayerTemplate, CardView) {
+], function(Backbone, DealerTemplate, CardView) {
 
-    var PlayerView = Backbone.View.extend({
+    var DealerView = Backbone.View.extend({
         initialize: function() {
             // Register events
             this.model.on('all', this.render, this);
             this.model.get('hand').on('all', this.render, this);
 
-            this.template = _.template(PlayerTemplate);
+            this.template = _.template(DealerTemplate);
             this.render();
-        },
-
-        events: {
-            "click .hit": "hit"
-        },
-
-        hit: function(e) {
-            e.preventDefault();
-
-            this.model.drawCard();
         },
 
         render: function() {
@@ -29,6 +19,7 @@ define([
                 handValue: this.model.getHandValue()
             });
 
+            console.log('dealer render');
             this.$el.html(this.template(model));
 
             this.model.get('hand').each(function(card) {
@@ -41,5 +32,5 @@ define([
         }
     });
 
-    return PlayerView;
+    return DealerView;
 });

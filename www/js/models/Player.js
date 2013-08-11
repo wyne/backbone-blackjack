@@ -6,7 +6,6 @@ define([
     var Player = Backbone.Model.extend({
         defaults: {
             name: 'Anonymous',
-            hand: new Hand(),
             cash: 500
         },
 
@@ -15,11 +14,12 @@ define([
                 throw "Each player must have a dealer's shoe to draw cards from!";
             }
 
-            this.shoe = options.shoe;
+            this.set('hand', new Hand());
+            this.set('shoe', options.shoe);
         },
 
         drawCard: function() {
-            var card = this.shoe.pop();
+            var card = this.get('shoe').pop();
             console.log(this.get('name') + ' drew a ' + card.get('rank').get('name') + ' of ' + card.get('suit').get('name'));
             this.get('hand').push(card);
 
@@ -28,7 +28,6 @@ define([
 
         adjustCash: function(amount) {
             this.set('cash', this.get('cash') + amount);
-            console.log(this.get('cash'));
             return this;
         },
 
