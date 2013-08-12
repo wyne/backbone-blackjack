@@ -56,6 +56,9 @@ define([
         playRoundListener: function() {
             this.stopListening(this.players, 'blackjack:endTurn', this.playRoundListener);
 
+            var allPlayersBust = this.players.every(function(player) {
+                return player.get('hand').getHandValue().value;
+            });
             // Tell the dealer to play it's turn
             this.dealer.playTurn();
 
@@ -146,14 +149,14 @@ define([
         },
 
         evaluateEndGame: function() {
-            var dealerValue = this.dealer.getHandValue().value;
+            var dealerValue = this.dealer.get('hand').getHandValue().value;
 
             var playersToEvaluate = this.players.filter(function(player) {
                 return !player.get('paid');
             });
 
             new Players(playersToEvaluate).each(function(player) {
-                var playerValue = player.getHandValue().value;
+                var playerValue = player.get('hand').getHandValue().value;
 
                 if (playerValue > 21) {
                     this.alert('BUST! Sorry, you lose.', 'error');

@@ -81,7 +81,7 @@ define([
 
         render: function() {
             var model = _.extend(this.model.toJSON(), {
-                handValue: this.model.getHandValue()
+                handValue: this.model.get('hand').getHandValue()
             });
 
             this.$el.html(this.template(model));

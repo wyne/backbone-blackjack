@@ -15,7 +15,7 @@ define([
 
         playTurn: function() {
             // Hit while less than 17
-            while (this.getHandValue().value < 17){
+            while (this.get('hand').getHandValue().value < 17){
                 this.hit();
             }
 

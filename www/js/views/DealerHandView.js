@@ -16,7 +16,6 @@ define([
             ) );
 
             if (playRound !== true){
-                console.log('hide');
                 this.$el.find('.value').css('visibility', 'hidden');
             }
 

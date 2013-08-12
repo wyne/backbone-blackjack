@@ -74,7 +74,7 @@ define([
         },
 
         validateHand: function() {
-            if (this.getHandValue().value > 21){
+            if (this.get('hand').getHandValue().value > 21){
                 this.bust();
             }
         },
@@ -123,42 +123,11 @@ define([
             return this;
         },
 
-        getHandValue: function() {
-            var hand = this.get('hand').models,
-                type = 'Hard',
-                val = 0,
-                aceCount = 0;
-
-            // Iterate through all cards and sum their values
-            value = _.reduce(hand, function(value, card) {
-                var cardValue = card.get('rank').get('value');
-                return value + cardValue;
-            }, 0);
-
-            // Count aces to accommodate for Soft Hands
-            aceCount = _.filter(hand, function(card) {
-                return card.get('rank').get('value') === 1;
-            }).length;
-
-            // If Soft Hand
-            if (aceCount > 0 && value < 12){
-                value += 10;
-                type = 'Soft';
-            }
-
-            return {
-                'type': type,
-                'value': value
-            };
-        },
-
         win: function() {
-            console.log("win!");
             this.adjustCash( this.get('bet') );
         },
 
         lose: function() {
-            console.log("lose!");
             this.adjustCash( this.get('bet') * -1);
         }
     });

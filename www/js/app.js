@@ -31,7 +31,7 @@ require([
 
     var game = new Game();
 
-    game.addPlayer('Justin');
+    game.addPlayer('You');
 
     var view = new GameView({ model: game });
 
