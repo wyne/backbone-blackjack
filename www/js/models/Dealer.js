@@ -1,10 +1,17 @@
 define([
     'backbone',
     'collections/Hand',
-    'models/Player'
-], function(Backbone, Hand, Player) {
+    'models/Player',
+    'views/DealerHandView'
+], function(Backbone, Hand, Player, DealerHandView) {
 
     var Dealer = Player.extend({
+
+        generateHandView: function() {
+            new DealerHandView({
+                model: this.get('hand')
+            });
+        },
 
         stay: function() {
             return this;

@@ -41,7 +41,6 @@ define([
         // Listeners
 
         betRoundListener: function() {
-            console.log('betRoundListener');
             var allBetsSubmitted = this.players.every(function(player) {
                 return player.isValid();
             });
@@ -54,7 +53,7 @@ define([
 
         playRoundListener: function() {
             this.stopListening(this.players, 'blackjack:endTurn', this.playRoundListener);
-            this.dealer.set('playRound', true);
+            this.dealer.get('hand').playRound = true;
             this.dealer.playTurn();
 
             this.evaluateEndGame();
@@ -115,7 +114,6 @@ define([
 
             // Reset game state
             this.trigger('blackjack:endGame');
-            console.log('endGame triggered');
         },
 
         startBettingRound: function() {
@@ -126,7 +124,7 @@ define([
                 player.set('');
             });
 
-            this.dealer.set('playRound', false);
+            this.dealer.get('hand').playRound = false;
 
             this.listenTo(this.players, 'blackjack:betSubmitted', this.betRoundListener);
         },
@@ -134,8 +132,6 @@ define([
         startPlayingRound: function() {
             // Trigger betting round for all listening models/views
             this.trigger('blackjack:startPlayingRound');
-
-            console.log('GAME startPlayingRound');
 
             this.deal();
 
@@ -146,8 +142,6 @@ define([
             // Clear players' hands
             this.players.each(function(player) {
                 player.get('hand').reset();
-                console.log('cleaing hand');
-                console.log(player.get('hand'));
                 player.set('paid', false);
             });
 

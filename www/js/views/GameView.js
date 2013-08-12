@@ -70,8 +70,6 @@ define([
             this.$('.dealer').append( dealerView.$el );
             
             // Append player views
-            console.log('this game');
-            console.log(this.model);
             this.model.players.each(function(player) {
                 this.$('.players').append( player.view.$el );
             }, this);

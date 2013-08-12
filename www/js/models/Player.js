@@ -22,10 +22,15 @@ define([
             }
 
             this.set('hand', new Hand());
+            this.generateHandView();
+
+            this.set('shoe', options.shoe);
+        },
+
+        generateHandView: function() {
             new HandView({
                 model: this.get('hand')
-            })
-            this.set('shoe', options.shoe);
+            });
         },
 
         validate: function(attrs, options) {
@@ -68,8 +73,6 @@ define([
                 amount = parseInt(amount, 10);
             }
             this.set('cash', this.get('cash') + amount);
-            console.log('cash');
-            console.log(this.get('cash'));
 
             this.set('paid', true);
             return this;
@@ -96,7 +99,6 @@ define([
         },
 
         bet: function() {
-            console.log("CLICKED BET");
             this.trigger('blackjack:betSubmitted');
 
             return this;
