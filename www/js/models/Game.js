@@ -77,8 +77,6 @@ define([
 
             this.clearAlert();
 
-            this.dealer.get('hand').playRound = false;
-
             this.listenTo(this.players, 'blackjack:betSubmitted', this.betRoundListener);
         },
 
@@ -96,6 +94,8 @@ define([
 
         newGame: function() {
             this.clearAlert();
+
+            this.dealer.get('hand').playRound = false;
 
             // Clear players' hands
             this.players.each(function(player) {
