@@ -1,10 +1,10 @@
 # Backbone BlackJack
 
-## Dependencies
+## Running from github
 
-* nodejs
+Go to [justinwyne.com/backbone-blackjack](http://justinwyne.com/backbone-blackjack)
 
-## Usage
+## Running locally
 
 ```
 $ cd www

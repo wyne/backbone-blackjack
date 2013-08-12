@@ -1,5 +1,14 @@
-Models should be broken out more. For example, the `Hand` object should be it's own.
 
-When the hand changes, currently the whole `PlayerView` is rendered. This could be improved.
+Due to time constraints, the scope of this project was limited.
 
-Support for multiple players is partially implemented
+## Implemented
+
+* Betting
+* Basic gameplay and phases
+* Calculating hand values (hard and soft)
+* Partial support for multiple players
+
+## Todos
+* Test framework with Jasmine
+* Early game end state detection
+* Better styles and stylize the cards

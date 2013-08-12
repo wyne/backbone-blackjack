@@ -57,10 +57,13 @@ define([
             this.stopListening(this.players, 'blackjack:endTurn', this.playRoundListener);
 
             var allPlayersBust = this.players.every(function(player) {
-                return player.get('hand').getHandValue().value;
+                return player.get('hand').getHandValue().value > 21;
             });
-            // Tell the dealer to play it's turn
-            this.dealer.playTurn();
+
+            if (!allPlayersBust){
+                // Tell the dealer to play it's turn
+                this.dealer.playTurn();
+            }
 
             // Evaluate the state and declare a winner
             this.evaluateEndGame();
