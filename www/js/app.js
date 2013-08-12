@@ -1,5 +1,5 @@
 requirejs.config({
-    baseUrl: '/js/', // Default from data-main path in index.html
+    baseUrl: 'js/', // Default from data-main path in index.html
     paths: {
         jquery: 'libs/jquery-1.9.1.min',
         underscore: 'libs/underscore-1.4.4-min',
