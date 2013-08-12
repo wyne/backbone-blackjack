@@ -10,35 +10,51 @@ define([
 
         el: 'body',
 
-        initialize: function() {
+        initialize: function(options) {
+            // For convenience and consistency with other views
+            this.game = this.model;
+
+            // Set up template
             this.template = _.template(GameTemplate);
+
+            // Triggers
+            this.listenTo(this.game, 'blackjack:startBettingRound', this.startBettingRound);
+            this.listenTo(this.game, 'blackjack:endGame', this.endGame);
+
+            // Render Game View
             this.render();
         },
 
+        // UI events
+
         events: {
-            "click #new-game" : "newGame"
+            "click #new-game" : "btnNewGame"
         },
+
+        btnNewGame: function(e) {
+            // Prevent default link actions
+            e.preventDefault();
+
+            // Tell Game Object to start a new game
+            this.model.newGame();
+        },
+
+        // Methods
 
         deal: function(e) {
+            // Prevent default link actions
             e.preventDefault();
-            if (this.$('#deal').attr('disabled') !== true){
-                this.model.deal();
-                this.$('#deal').attr('disabled', true);
-            }
-            
-        },
 
-        newGame: function() {
-            this.model.newGame();
-            this.startBettingRound();
+            // Deal a new game
+            this.model.deal();
         },
 
         startBettingRound: function() {
-            this.model.startBettingRound();
+            this.$el.find('#new-game').hide();
         },
 
-        startPlayingRound: function() {
-            this.model.startPlayingRound();
+        endGame: function() {
+            this.$el.find('#new-game').show();
         },
 
         render: function() {
@@ -46,15 +62,18 @@ define([
             this.$el.html( this.template() );
 
             // Append dealer view
-            this.$('.dealer').append( new DealerView({ model: this.model.dealer }).$el );
+            var dealerView = new DealerView({
+                model: this.model.dealer,
+                game: this.game
+            });
+
+            this.$('.dealer').append( dealerView.$el );
             
             // Append player views
+            console.log('this game');
+            console.log(this.model);
             this.model.players.each(function(player) {
-                var playerView = new PlayerView({
-                    model: player
-                });
-
-                this.$('.players').append( playerView.$el );
+                this.$('.players').append( player.view.$el );
             }, this);
 
             return this;

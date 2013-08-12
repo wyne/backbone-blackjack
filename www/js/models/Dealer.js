@@ -11,9 +11,13 @@ define([
         },
 
         playTurn: function() {
-            if (this.getHandValue().value < 17){
+            while (this.getHandValue().value < 17){
                 this.hit();
             }
+        },
+
+        bust: function() {
+
         }
 
     });

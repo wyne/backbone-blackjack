@@ -1,19 +1,20 @@
 define([
     'backbone',
-    'collections/Hand'
-], function(Backbone, Hand) {
+    'collections/Hand',
+    'views/HandView'
+], function(Backbone, Hand, HandView) {
 
     var Player = Backbone.Model.extend({
         defaults: {
             name: 'Anonymous',
             cash: 500,
             maxAllowedBet: 100,
-            bet: 10
+            bet: 50
         },
 
         initialize: function(options) {
             this.on('invalid', function(model, error) {
-                console.log('INVALID');
+                console.log('Invalid bet. ' + error);
             });
 
             if (_.isUndefined(options.shoe)){
@@ -21,14 +22,37 @@ define([
             }
 
             this.set('hand', new Hand());
+            new HandView({
+                model: this.get('hand')
+            })
             this.set('shoe', options.shoe);
         },
 
         validate: function(attrs, options) {
             if (attrs.bet > this.get('maxAllowedBet')){
-                return 'Bet must not exceed ' + this.maxAllowedBet
+                return 'Bet must not exceed ' + this.maxAllowedBet;
             }
 
+            if (attrs.bet > this.get('cash')) {
+                return 'You cannot bet more than you own!';
+            }
+
+        },
+
+        bust: function() {
+            console.log(this.get('name') + ' busted!');
+            this.endTurn();
+            // this.lose();
+        },
+
+        endTurn: function() {
+            this.trigger('blackjack:endTurn');
+        },
+
+        validateHand: function() {
+            if (this.getHandValue().value > 21){
+                this.bust();
+            }
         },
 
         drawCard: function() {
@@ -40,30 +64,40 @@ define([
         },
 
         adjustCash: function(amount) {
+            if ( _.isString(amount)){
+                amount = parseInt(amount, 10);
+            }
             this.set('cash', this.get('cash') + amount);
+            console.log('cash');
+            console.log(this.get('cash'));
+
+            this.set('paid', true);
             return this;
         },
 
         hit: function() {
             this.drawCard();
-        },
+            this.validateHand();
 
-        stand: function() {
-            this.trigger('endTurn');
             return this;
         },
 
-        bet: function(amount) {
+        stand: function() {
+            this.endTurn();
+            return this;
+        },
+
+        changeBet: function(amount) {
             this.set({
                 'bet': amount
             }, {
-                'validate': true
+                validate: true
             });
+        },
 
-            if (this.isValid()){
-                console.log('trigger');
-                this.trigger('betSubmitted');
-            }
+        bet: function() {
+            console.log("CLICKED BET");
+            this.trigger('blackjack:betSubmitted');
 
             return this;
         },
@@ -95,6 +129,16 @@ define([
                 'type': type,
                 'value': value
             };
+        },
+
+        win: function() {
+            console.log("win!");
+            this.adjustCash( this.get('bet') );
+        },
+
+        lose: function() {
+            console.log("lose!");
+            this.adjustCash( this.get('bet') * -1);
         }
     });
 
