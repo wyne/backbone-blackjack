@@ -12,6 +12,7 @@ define([
 
             // Register events
             this.model.on('change:cash', this.render, this);
+            this.model.on('change:bet', this.render, this);
 
             // Set up template
             this.template = _.template(PlayerTemplate);
@@ -29,27 +30,41 @@ define([
         },
 
         events: {
-            'click .hit':       'hit',
-            'click .stand':     'stand',
-            'click .bet':       'bet',
-            'click .betPlus':   'betPlus',
-            'click .betMinus':  'betMinus'
+            'click .hit':           'hit',
+            'click .stand':         'stand',
+            'click .place-bet':     'bet',
+            'click .incBet':        'incBet',
+            'click .incBetLarge':   'incBetLarge',
+            'click .decBet':        'decBet',
+            'click .decBetLarge':   'decBetLarge'
         },
 
-        betPlus: function(e) {
+        incBet: function(e) {
             e.preventDefault();
             this.model.changeBet( this.model.get('bet') + 1);
         },
 
-        betMinus: function(e) {
+        incBetLarge: function(e) {
+            e.preventDefault();
+            this.model.changeBet( this.model.get('bet') + 10);
+        },
+
+        decBet: function(e) {
             e.preventDefault();
             this.model.changeBet( this.model.get('bet') - 1);
+        },
+
+        decBetLarge: function(e) {
+            e.preventDefault();
+            this.model.changeBet( this.model.get('bet') - 10);
         },
 
         bet: function(e) {
             e.preventDefault();
 
-            this.model.bet(this.$el.find('.betAmount').val());
+            var amount = this.$el.find('.betAmount').val();
+
+            this.model.bet(amount);
         },
 
         hit: function(e) {
@@ -73,18 +88,32 @@ define([
 
             this.$el.find('.btn').hide();
 
+            if (this.betRound === true){
+                this.startBettingRound();
+            }
+
             this.$el.append( this.model.get('hand').view.$el );
 
             return this;
         },
 
         startBettingRound: function() {
+            this.betRound = true;
+
+            // Disable other buttons
             this.$el.find('.btn').hide();
+
+            // Enable bet button
             this.$el.find('.btn.bet').show();
         },
 
         startPlayingRound: function() {
+            this.betRound = false;
+
+            // Disable other buttons
             this.$el.find('.btn').hide();
+
+            // Enable play buttons
             this.$el.find('.hit, .stand').show();
         },
 

@@ -1,15 +1,15 @@
-
 .hand {
     height: 250px;
 }
 .card {
     width: 100px;
-    height: 200px;
-    border: 1px solid black;
+    height: 170px;
+    border: 1px solid rgb(117, 117, 117);
     border-radius: 5px;
     float: left;
     margin: 10px;
     padding: 10px;
+    box-shadow: 1px 1px 4px -1px;
     &.face-down {
         background-color: gray;
 
@@ -17,4 +17,9 @@
             display: none;
         }
     }
+}
+.betBox {
+    font-size: 20px;
+    font-weight: bold;
+    display: inline;
 }

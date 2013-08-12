@@ -13,9 +13,16 @@ define([
         },
 
         initialize: function(options) {
+            // Attach Game
+            this.game = options.game;
+
+            this.listenTo(this.game, 'blackjack:startBettingRound', this.startBettingRound);
+
             this.on('invalid', function(model, error) {
                 console.log('Invalid bet. ' + error);
-            });
+                this.game.alert(error);
+                this.setDefaultBet();
+            }, this);
 
             if (_.isUndefined(options.shoe)){
                 throw 'Each player must link to a dealer\'s shoe to draw cards!';
@@ -27,6 +34,14 @@ define([
             this.set('shoe', options.shoe);
         },
 
+        startBettingRound: function() {
+            this.setDefaultBet();
+        },
+
+        setDefaultBet: function() {
+            this.set('bet', _.min([this.get('cash'), this.defaults.bet]));
+        },
+
         generateHandView: function() {
             new HandView({
                 model: this.get('hand')
@@ -35,11 +50,15 @@ define([
 
         validate: function(attrs, options) {
             if (attrs.bet > this.get('maxAllowedBet')){
-                return 'Bet must not exceed ' + this.maxAllowedBet;
+                return 'Bet must not exceed ' + this.get('maxAllowedBet');
             }
 
             if (attrs.bet > this.get('cash')) {
                 return 'You cannot bet more than you own!';
+            }
+
+            if (attrs.bet < 0){
+                return 'You must bet a positive amount';
             }
 
         },

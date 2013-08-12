@@ -9,13 +9,20 @@ define([
 
         render: function() {
 
+            var playRound = this.model.playRound;
+
             this.$el.html( this.template(
                 this.model.getHandValue()
             ) );
 
+            if (playRound !== true){
+                console.log('hide');
+                this.$el.find('.value').css('visibility', 'hidden');
+            }
+
             this.model.each(function(card, i) {
                 var visible = false;
-                if (i === 0 || this.model.playRound === true ){
+                if (i === 0 ||  playRound === true ){
                     visible = true;
                 }
 

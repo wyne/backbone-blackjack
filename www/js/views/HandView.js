@@ -19,9 +19,13 @@ define([
 
         render: function() {
 
-            this.$el.html( this.template(
-                this.model.getHandValue()
-            ) );
+            if ( this.model.length === 0){
+                this.$el.empty();
+            } else {
+                this.$el.html( this.template(
+                    this.model.getHandValue()
+                ) );
+            }
 
             this.model.each(function(card) {
                 this.$el.find('.hand').append(new CardView({

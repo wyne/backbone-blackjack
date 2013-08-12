@@ -8,10 +8,9 @@ define([
         model: Card,
 
         initialize: function() {
-        	console.log("INIT HAND!");
-        	this.value = 0;
+            this.value = 0;
 
-        	this.type = 'hard';
+            this.type = 'hard';
         },
 
         getHandValue: function() {

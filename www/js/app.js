@@ -35,4 +35,6 @@ require([
 
     var view = new GameView({ model: game });
 
+    game.newGame();
+
 });

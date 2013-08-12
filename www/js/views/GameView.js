@@ -21,6 +21,9 @@ define([
             this.listenTo(this.game, 'blackjack:startBettingRound', this.startBettingRound);
             this.listenTo(this.game, 'blackjack:endGame', this.endGame);
 
+            // Save reference to view
+            this.model.view = this;
+
             // Render Game View
             this.render();
         },
@@ -40,6 +43,20 @@ define([
         },
 
         // Methods
+        
+        alert: function(msg, type) {
+            var el = this.$el.find('#alert');
+
+            if (_.isString(type)){
+                el.addClass('alert-' + type);
+            }
+
+            el.show().html(msg);
+        },
+
+        clearAlert: function() {
+            this.$el.find('.alert').removeClass().addClass('alert').hide();
+        },
 
         deal: function(e) {
             // Prevent default link actions
@@ -50,11 +67,11 @@ define([
         },
 
         startBettingRound: function() {
-            this.$el.find('#new-game').hide();
+            this.$el.find('#new-game').css('visibility', 'hidden');
         },
 
         endGame: function() {
-            this.$el.find('#new-game').show();
+            this.$el.find('#new-game').css('visibility', 'visible');
         },
 
         render: function() {
